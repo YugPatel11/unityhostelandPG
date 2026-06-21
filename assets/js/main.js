@@ -1,5 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
   
+  // 0. Preloader Logic
+  const preloader = document.getElementById('preloader');
+  if (preloader) {
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        preloader.style.opacity = '0';
+        setTimeout(() => {
+          preloader.style.display = 'none';
+        }, 700);
+      }, 500);
+    });
+  }
+
   // 1. Navbar blur effect on scroll
   const nav = document.querySelector('nav');
   window.addEventListener('scroll', () => {

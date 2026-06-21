@@ -81,6 +81,14 @@
 <body
   class="bg-[#faf0e6] text-stone-800 font-sans antialiased overflow-x-hidden selection:bg-emerald-200 selection:text-emerald-900">
 
+  <!-- Preloader -->
+  <div id="preloader" class="fixed inset-0 z-[100] bg-[#faf0e6] flex flex-col items-center justify-center transition-all duration-700 ease-in-out">
+    <div class="relative flex flex-col items-center">
+      <div class="absolute -inset-4 border-[3px] border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin"></div>
+      <img src="./assets/image.png" alt="Loading..." class="w-20 h-20 md:w-28 md:h-28 rounded-full object-cover shadow-2xl animate-pulse-slow">
+    </div>
+  </div>
+
   <!-- Navbar -->
   <nav class="fixed w-full z-50 transition-all duration-300 bg-[#faf0e6]/80 backdrop-blur-md saturate-150 border-b border-stone-200/50 shadow-lg shadow-black/5">
     <div class="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
