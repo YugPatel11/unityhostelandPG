@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unity Hostel and PG — Premium Living in Kosamba</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            sans: ['DM Sans', 'sans-serif'],
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'float-delayed': 'float 6s ease-in-out infinite 3s',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'shine': 'shine 2s linear infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' },
+            },
+            shine: {
+              '100%': { left: '125%' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .glass {
+        @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-lg;
+      }
+      .glass-dark {
+        @apply bg-stone-900/80 backdrop-blur-md border border-white/10 shadow-xl;
+      }
+      .text-gradient {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-500;
+      }
+      .reveal {
+        @apply opacity-0 translate-y-12 transition-all duration-1000 ease-[cubic-bezier(0.25,0.46,0.45,0.94)];
+      }
+      .reveal.active {
+        @apply opacity-100 translate-y-0;
+      }
+      .stagger-1 { transition-delay: 100ms; }
+      .stagger-2 { transition-delay: 200ms; }
+      .stagger-3 { transition-delay: 300ms; }
+      .stagger-4 { transition-delay: 400ms; }
+      
+      .hover-card {
+        @apply transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl hover:shadow-emerald-900/10;
+      }
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+
+<body
+  class="bg-[#faf0e6] text-stone-800 font-sans antialiased overflow-x-hidden selection:bg-emerald-200 selection:text-emerald-900">
+
+  <!-- Navbar -->
+  <nav class="fixed w-full z-50 transition-all duration-300 bg-[#faf0e6]/80 backdrop-blur-md saturate-150 border-b border-stone-200/50 shadow-lg shadow-black/5">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2 md:gap-3">
+        <img src="/assets/image.png" alt="Logo" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover shadow-sm">
+        <span class="font-display text-xl md:text-2xl font-bold text-emerald-900 tracking-tight">Unity Hostel & PG</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8 font-medium text-stone-600 text-sm tracking-wide">
+        <a href="#about" class="hover:text-emerald-600 transition-colors">About</a>
+        <a href="#rooms" class="hover:text-emerald-600 transition-colors">Rooms</a>
+        <a href="#facilities" class="hover:text-emerald-600 transition-colors">Facilities</a>
+        <a href="#dining" class="hover:text-emerald-600 transition-colors">Dining</a>
+        <a href="#gallery" class="hover:text-emerald-600 transition-colors">Gallery</a>
+        <a href="#faq" class="hover:text-emerald-600 transition-colors">FAQ</a>
+      </div>
+      <a href="https://wa.me/919687886878?text=Hii%20i%20want%20to%20book%20a%20room%20for%20me%20" target="_blank"
+        class="inline-flex bg-emerald-600 text-white px-4 py-1.5 md:px-6 md:py-2.5 rounded-full text-xs md:text-sm font-medium hover:bg-emerald-700 transition-all hover:scale-105 shadow-lg shadow-emerald-600/20 active:scale-95 whitespace-nowrap">Book
+        a Visit</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero" class="relative min-h-[100svh] flex items-center pt-20 overflow-hidden bg-stone-900">
+    <div class="absolute inset-0 z-0">
+      <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=1600&q=80" alt="Unity Hostel PG exterior"
+        class="w-full h-full object-cover opacity-60">
+      <div class="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-900/80 to-transparent"></div>
+
+      <!-- Animated Blobs -->
+      <div
+        class="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-600/20 rounded-full mix-blend-screen filter blur-3xl animate-float">
+      </div>
+      <div
+        class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-500/20 rounded-full mix-blend-screen filter blur-3xl animate-float-delayed">
+      </div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center w-full">
+      <div>
+        <span
+          class="reveal inline-block py-1.5 px-4 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold tracking-widest text-[10px] md:text-xs mb-4 md:mb-6 border border-emerald-500/20 backdrop-blur-sm uppercase">Premium
+          Living in Kosamba</span>
+        <h1 class="reveal stagger-1 font-display text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.1] mb-4 md:mb-6">
+          Unity Hostel <br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300 italic">& PG</span>
+        </h1>
+        <p class="reveal stagger-2 text-stone-300 text-lg md:text-xl max-w-lg mb-10 leading-relaxed font-light">
+          Experience the perfect blend of home warmth and premium amenities. Fully furnished, food-inclusive, and
+          designed for your success.</p>
+        <div class="reveal stagger-3 flex flex-wrap gap-4">
+          <a href="https://wa.me/919687886878?text=Hii%20i%20want%20to%20book%20a%20room%20for%20me%20" target="_blank"
+            class="relative overflow-hidden bg-emerald-500 text-white px-8 py-4 rounded-full font-medium transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:-translate-y-1 flex items-center gap-2 group">
+            <span class="relative z-10">Book a Visit</span>
+            <svg class="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+            <div
+              class="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-white opacity-20 group-hover:animate-shine">
+            </div>
+          </a>
+          <a href="https://wa.me/919687886878?text=Hii%20i%20want%20to%20book%20a%20room%20for%20me%20" target="_blank"
+            class="bg-white/10 text-white border border-white/20 backdrop-blur-md px-8 py-4 rounded-full font-medium hover:bg-white/20 transition-all hover:-translate-y-1 flex items-center gap-2">
+            WhatsApp Us
+          </a>
+        </div>
+      </div>
+
+      <!-- Floating Card Details -->
+      <div class="hidden md:block relative h-full">
+        <div class="h-2 bg-stone-800 rounded-full overflow-hidden">
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section
+    class="py-8 md:py-10 bg-emerald-900 text-white relative z-20 md:-mt-12 mx-4 md:mx-auto max-w-5xl rounded-3xl shadow-2xl border border-emerald-800/50">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-8 px-2 md:px-6 divide-x divide-emerald-800/0 md:divide-emerald-800 text-center">
+      <div class="reveal border-r border-emerald-800 md:border-r-0">
+        <div class="font-display text-4xl md:text-5xl font-bold text-emerald-300 mb-1">30+</div>
+        <div class="text-[10px] md:text-xs font-semibold tracking-widest text-emerald-100/70 uppercase">Residents</div>
+      </div>
+      <div class="reveal stagger-1">
+        <div class="font-display text-4xl md:text-5xl font-bold text-emerald-300 mb-1">2 Yrs</div>
+        <div class="text-[10px] md:text-xs font-semibold tracking-widest text-emerald-100/70 uppercase">Experience</div>
+      </div>
+      <div class="reveal stagger-2 border-r border-emerald-800 md:border-r-0 border-t border-emerald-800/50 md:border-t-0 pt-6 md:pt-0">
+        <div class="font-display text-4xl md:text-5xl font-bold text-emerald-300 mb-1">4.9★</div>
+        <div class="text-[10px] md:text-xs font-semibold tracking-widest text-emerald-100/70 uppercase">Rating</div>
+      </div>
+      <div class="reveal stagger-3 border-t border-emerald-800/50 md:border-t-0 pt-6 md:pt-0">
+        <div class="font-display text-4xl md:text-5xl font-bold text-emerald-300 mb-1">100%</div>
+        <div class="text-[10px] md:text-xs font-semibold tracking-widest text-emerald-100/70 uppercase">Hygiene</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About & Features -->
+  <section id="about" class="py-24 bg-[#faf0e6] overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="reveal text-center mb-16">
+        <span class="text-emerald-600 font-bold tracking-widest uppercase text-sm">Why Choose Unity Hostel</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold text-stone-900 mt-3">Where Comfort <span
+            class="italic text-emerald-700">Meets Care</span></h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+        <!-- Feature 1 -->
+        <div class="reveal stagger-1 bg-white p-4 md:p-8 rounded-[1rem] md:rounded-[2rem] hover-card border border-stone-100 group flex flex-col justify-between">
+          <div>
+            <div
+              class="w-10 h-10 md:w-16 md:h-16 bg-emerald-50 rounded-xl md:rounded-2xl flex items-center justify-center text-emerald-600 mb-3 md:mb-6 group-hover:scale-110 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-500 shadow-sm">
+              <svg class="w-5 h-5 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                </path>
+              </svg>
+            </div>
+            <h3 class="text-sm md:text-xl font-bold text-stone-900 mb-1.5 md:mb-3 leading-tight">Fully Furnished</h3>
+            <p class="text-stone-500 text-sm md:text-base leading-relaxed">Premium beds, spacious wardrobes, and dedicated study tables
+              designed for maximum comfort and focus.</p>
+          </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="reveal stagger-2 bg-white p-4 md:p-8 rounded-[1rem] md:rounded-[2rem] hover-card border border-stone-100 group flex flex-col justify-between">
+          <div>
+            <div
+              class="w-10 h-10 md:w-16 md:h-16 bg-orange-50 rounded-xl md:rounded-2xl flex items-center justify-center text-orange-600 mb-3 md:mb-6 group-hover:scale-110 group-hover:bg-orange-600 group-hover:text-white transition-all duration-500 shadow-sm">
+              <svg class="w-5 h-5 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-sm md:text-xl font-bold text-stone-900 mb-1.5 md:mb-3 leading-tight">Homestyle Meals</h3>
+            <p class="text-stone-500 text-sm md:text-base leading-relaxed">Nutritious breakfast, lunch, and dinner cooked fresh daily.
+              Experience the taste of home with our hygienic kitchens.</p>
+          </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="reveal stagger-3 bg-white p-4 md:p-8 rounded-[1rem] md:rounded-[2rem] hover-card border border-stone-100 group flex flex-col justify-between">
+          <div>
+            <div
+              class="w-10 h-10 md:w-16 md:h-16 bg-blue-50 rounded-xl md:rounded-2xl flex items-center justify-center text-blue-600 mb-3 md:mb-6 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 shadow-sm">
+              <svg class="w-5 h-5 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                </path>
+              </svg>
+            </div>
+            <h3 class="text-sm md:text-xl font-bold text-stone-900 mb-1.5 md:mb-3 leading-tight">24/7 Security</h3>
+            <p class="text-stone-500 text-sm md:text-base leading-relaxed">Sleep peacefully knowing you're protected by round-the-clock CCTV
+              surveillance.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rooms Showcase -->
+  <section id="rooms" class="py-24 bg-[#faf0e6] border-y border-[#faf0e6]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="reveal flex flex-col md:flex-row md:items-end justify-between mb-16">
+        <div>
+          <span class="text-emerald-600 font-bold tracking-widest uppercase text-sm">Our Rooms</span>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-stone-900 mt-3">Spaces Designed for <br><span
+              class="italic text-emerald-700">Living & Learning</span></h2>
+        </div>
+        <div class="mt-6 md:mt-0 max-w-md">
+          <p class="text-stone-500 mb-2">Choose from 3, 4, or 5 bed sharing — each room is fully furnished, air-conditioned, and designed for comfort.</p>
+          <p class="text-emerald-600 font-semibold text-sm">✨ Coming Soon: Power Backup , Laundry & Meals!</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-4 md:gap-8">
+        <!-- Room Card 1 -->
+        <div
+          class="reveal stagger-1 bg-stone-50 rounded-[1rem] md:rounded-[2rem] overflow-hidden border border-stone-100 hover-card group flex flex-col">
+          <div class="relative h-32 md:h-72 overflow-hidden shrink-0">
+            <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=600&q=80" alt="Single Room"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            </div>
+            <div
+              class="absolute top-2 left-2 md:top-4 md:left-4 bg-white/90 backdrop-blur-sm text-stone-800 text-[8px] md:text-xs font-bold uppercase tracking-wider py-0.5 px-1.5 md:py-1.5 md:px-3 rounded-full shadow-sm">
+              Premium</div>
+          </div>
+          <div class="p-3 md:p-8 flex flex-col grow">
+            <div class="flex flex-col xl:flex-row xl:justify-between xl:items-center mb-1 md:mb-4">
+              <h3 class="font-display text-[15px] md:text-2xl font-bold text-stone-900 leading-tight">3 Bed Sharing</h3>
+              <span class="text-emerald-600 font-bold text-sm md:text-xl mt-0.5 xl:mt-0">₹6,500<span
+                  class="text-[9px] md:text-sm text-stone-400 font-normal">/mo</span></span>
+            </div>
+            <p class="text-stone-500 mb-3 md:mb-6 text-[10px] md:text-sm line-clamp-2 md:line-clamp-none leading-relaxed">Comfortable 3 bed sharing with ample space, dedicated study
+              area, and vibrant community vibe.</p>
+            <div class="flex flex-wrap gap-1 md:gap-2 mb-3 md:mb-8 mt-auto">
+              <span
+                class="bg-white border border-stone-200 text-stone-600 text-[8px] md:text-xs py-0.5 px-1.5 md:py-1 md:px-3 rounded md:rounded-full font-medium">AC</span>
+              <span
+                class="bg-white border border-stone-200 text-stone-600 text-[8px] md:text-xs py-0.5 px-1.5 md:py-1 md:px-3 rounded md:rounded-full font-medium">WiFi</span>
+            </div>
+            <a href="https://wa.me/919687886878?text=Hii%20i%20want%20to%20book%20a%20room%20for%20me%20"
+              target="_blank"
+              class="block w-full text-center py-1.5 md:py-3.5 text-[11px] md:text-base rounded-full border-2 border-emerald-600 text-emerald-600 font-medium hover:bg-emerald-600 hover:text-white transition-colors">Enquire Now</a>
+          </div>
+        </div>
+
+        <!-- Room Card 2 -->
+        <div
+          class="reveal stagger-2 bg-stone-50 rounded-[1rem] md:rounded-[2rem] overflow-hidden border-2 border-emerald-500 relative hover-card group shadow-xl shadow-emerald-900/5 flex flex-col">
+          <div
+            class="absolute top-0 right-3 md:right-8 bg-emerald-500 text-white text-[8px] md:text-xs font-bold uppercase tracking-wider py-1 px-1.5 md:py-1.5 md:px-4 rounded-b-lg md:rounded-b-xl z-10 shadow-lg leading-none">
+            Most Popular</div>
+          <div class="relative h-32 md:h-72 overflow-hidden shrink-0">
+            <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=600&q=80" alt="Double Room"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            </div>
+          </div>
+          <div class="p-3 md:p-8 flex flex-col grow">
+            <div class="flex flex-col xl:flex-row xl:justify-between xl:items-center mb-1 md:mb-4">
+              <h3 class="font-display text-[15px] md:text-2xl font-bold text-stone-900 leading-tight">4 Bed Sharing</h3>
+              <span class="text-emerald-600 font-bold text-sm md:text-xl mt-0.5 xl:mt-0">₹6,000<span
+                  class="text-[9px] md:text-sm text-stone-400 font-normal">/mo</span></span>
+            </div>
+            <p class="text-stone-500 mb-3 md:mb-6 text-[10px] md:text-sm line-clamp-2 md:line-clamp-none leading-relaxed">Spacious 4 bed sharing with natural light, individual storage, and a dedicated
+              shared study corner.</p>
+            <div class="flex flex-wrap gap-1 md:gap-2 mb-3 md:mb-8 mt-auto">
+              <span
+                class="bg-white border border-stone-200 text-stone-600 text-[8px] md:text-xs py-0.5 px-1.5 md:py-1 md:px-3 rounded md:rounded-full font-medium">AC</span>
+              <span
+                class="bg-white border border-stone-200 text-stone-600 text-[8px] md:text-xs py-0.5 px-1.5 md:py-1 md:px-3 rounded md:rounded-full font-medium">WiFi</span>
+            </div>
+            <a href="https://wa.me/919687886878?text=Hii%20i%20want%20to%20book%20a%20room%20for%20me%20"
+              target="_blank"
+              class="block w-full text-center py-1.5 md:py-3.5 text-[11px] md:text-base rounded-full bg-emerald-600 text-white font-medium hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-600/20">Enquire Now</a>
+          </div>
+        </div>
+
+        <!-- Room Card 3 -->
+        <div
+          class="reveal stagger-3 bg-stone-50 rounded-[1rem] md:rounded-[2rem] overflow-hidden border border-stone-100 hover-card group flex flex-col">
+          <div class="relative h-32 md:h-72 overflow-hidden shrink-0">
+            <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=600&q=80" alt="Triple Room"
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            </div>
+            <div
+              class="absolute top-2 left-2 md:top-4 md:left-4 bg-white/90 backdrop-blur-sm text-stone-800 text-[8px] md:text-xs font-bold uppercase tracking-wider py-0.5 px-1.5 md:py-1.5 md:px-3 rounded-full shadow-sm">
+              Budget Friendly</div>
+          </div>
+          <div class="p-3 md:p-8 flex flex-col grow">
+            <div class="flex flex-col xl:flex-row xl:justify-between xl:items-center mb-1 md:mb-4">
+              <h3 class="font-display text-[15px] md:text-2xl font-bold text-stone-900 leading-tight">5 Bed Sharing</h3>
+              <span class="text-emerald-600 font-bold text-sm md:text-xl mt-0.5 xl:mt-0">₹5,500<span
+                  class="text-[9px] md:text-sm text-stone-400 font-normal">/mo</span></span>
+            </div>
+            <p class="text-stone-500 mb-3 md:mb-6 text-[10px] md:text-sm line-clamp-2 md:line-clamp-none leading-relaxed">Affordable and comfortable 5 bed sharing — perfect for students who love vibrant
+              community living.</p>
+            <div class="flex flex-wrap gap-1 md:gap-2 mb-3 md:mb-8 mt-auto">
+              <span
+                class="bg-white border border-stone-200 text-stone-600 text-[8px] md:text-xs py-0.5 px-1.5 md:py-1 md:px-3 rounded md:rounded-full font-medium">AC</span>
+              <span
+                class="bg-white border border-stone-200 text-stone-600 text-[8px] md:text-xs py-0.5 px-1.5 md:py-1 md:px-3 rounded md:rounded-full font-medium">WiFi</span>
+            </div>
+            <a href="https://wa.me/919687886878?text=Hii%20i%20want%20to%20book%20a%20room%20for%20me%20"
+              target="_blank"
+              class="block w-full text-center py-1.5 md:py-3.5 text-[11px] md:text-base rounded-full border-2 border-emerald-600 text-emerald-600 font-medium hover:bg-emerald-600 hover:text-white transition-colors">Enquire Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Facilities -->
+  <section id="facilities" class="py-24 bg-stone-900 text-white relative overflow-hidden">
+    <div class="absolute inset-0 flex items-center justify-center opacity-[0.02] pointer-events-none overflow-hidden">
+      <span class="font-display font-bold text-[20vw] leading-none whitespace-nowrap">FACILITIES</span>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="reveal text-center mb-16">
+        <span class="text-emerald-400 font-bold tracking-widest uppercase text-sm">What We Offer</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold text-white mt-3">Everything You <span
+            class="italic text-emerald-400">Need</span></h2>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-5xl mx-auto auto-rows-[140px] md:auto-rows-[180px]">
+        
+        <!-- Big Feature 1 -->
+        <div class="reveal stagger-1 col-span-2 row-span-2 bg-gradient-to-br from-stone-800/80 to-stone-800/30 backdrop-blur-md border border-stone-700/50 p-6 md:p-8 rounded-[1.5rem] md:rounded-[2.5rem] hover:bg-stone-800 hover:border-emerald-500/30 transition-all duration-300 group flex flex-col justify-end text-left relative overflow-hidden">
+          <div class="absolute top-6 right-6 md:top-8 md:right-8 text-stone-700/30 group-hover:text-emerald-500/10 transition-colors duration-500">
+            <svg class="w-24 h-24 md:w-40 md:h-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path></svg>
+          </div>
+          <div class="text-emerald-400 mb-3 md:mb-5 transform group-hover:-translate-y-2 transition-transform duration-300 relative z-10">
+            <svg class="w-8 h-8 md:w-12 md:h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path></svg>
+          </div>
+          <h4 class="font-display font-bold text-stone-100 text-xl md:text-3xl leading-tight relative z-10">High-Speed<br>Enterprise WiFi</h4>
+          <p class="text-stone-400 mt-2 text-xs md:text-sm max-w-xs relative z-10">Stay connected with our seamless, zero-drop wireless network available in every corner.</p>
+        </div>
+
+      
+        <!-- Standard Box -->
+        <div class="reveal stagger-2 col-span-1 row-span-1 bg-stone-800/40 backdrop-blur-md border border-stone-700/50 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] text-center hover:bg-stone-800 hover:border-emerald-500/30 transition-all duration-300 group flex flex-col items-center justify-center">
+          <div class="text-emerald-400 mb-2 md:mb-3 flex justify-center transform group-hover:scale-110 transition-transform duration-300">
+            <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2H4a2 2 0 0 1 -2 -2V8a2 2 0 0 1 2 -2z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 10h16" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 17v3" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v4" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 17v3" />
+            </svg>
+          </div>
+          <h4 class="font-bold text-stone-200 text-sm leading-tight">AC</h4>
+        </div>
+
+        <!-- Standard Box -->
+        <div class="reveal stagger-3 col-span-1 row-span-1 bg-stone-800/40 backdrop-blur-md border border-stone-700/50 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] text-center hover:bg-stone-800 hover:border-emerald-500/30 transition-all duration-300 group flex flex-col items-center justify-center">
+          <div class="text-emerald-400 mb-2 md:mb-3 flex justify-center transform group-hover:scale-110 transition-transform duration-300">
+            <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+          </div>
+          <h4 class="font-bold text-stone-200 text-sm leading-tight">Cleaning</h4>
+        </div>
+
+        <!-- Standard Box -->
+        <div class="reveal stagger-4 col-span-1 row-span-1 bg-stone-800/40 backdrop-blur-md border border-stone-700/50 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] text-center hover:bg-stone-800 hover:border-emerald-500/30 transition-all duration-300 group flex flex-col items-center justify-center">
+          <div class="text-emerald-400 mb-2 md:mb-3 flex justify-center transform group-hover:scale-110 transition-transform duration-300">
+            <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+          </div>
+          <h4 class="font-bold text-stone-200 text-sm leading-tight">CCTV</h4>
+        </div>
+
+        <!-- Standard Box -->
+        <div class="reveal stagger-1 col-span-1 row-span-1 bg-stone-800/40 backdrop-blur-md border border-stone-700/50 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] text-center hover:bg-stone-800 hover:border-emerald-500/30 transition-all duration-300 group flex flex-col items-center justify-center">
+          <div class="text-emerald-400 mb-2 md:mb-3 flex justify-center transform group-hover:scale-110 transition-transform duration-300">
+            <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"></path></svg>
+          </div>
+          <h4 class="font-bold text-stone-200 text-sm leading-tight">RO Water</h4>
+        </div>
+
+        <!-- Horizontal Box -->
+        <div class="reveal stagger-2 col-span-2 md:col-span-2 row-span-1 bg-stone-800/40 backdrop-blur-md border border-stone-700/50 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] hover:bg-stone-800 hover:border-emerald-500/30 transition-all duration-300 group flex items-center gap-4 md:gap-6 text-left relative overflow-hidden">
+          <div class="bg-emerald-500/10 p-3 md:p-4 rounded-xl text-emerald-400 transform group-hover:scale-110 transition-transform duration-300 shrink-0">
+            <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+          </div>
+          <div>
+            <h4 class="font-bold text-stone-100 text-sm md:text-lg leading-tight mb-1">3 Time Meals </h4>
+            <span class="inline-block text-[9px] md:text-[10px] uppercase tracking-wider text-emerald-400 border border-emerald-400/30 rounded-full px-2 py-0.5 bg-emerald-400/10">Coming Soon</span>
+          </div>
+        </div>
+
+        <!-- Standard Box -->
+        <div class="reveal stagger-3 col-span-1 row-span-1 bg-stone-800/40 backdrop-blur-md border border-stone-700/50 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] text-center hover:bg-stone-800 hover:border-emerald-500/30 transition-all duration-300 group flex flex-col items-center justify-center relative overflow-hidden">
+          <div class="text-emerald-400 mb-2 md:mb-3 flex justify-center transform group-hover:scale-110 transition-transform duration-300">
+            <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+          </div>
+          <h4 class="font-bold text-stone-200 text-sm leading-tight mb-1">Laundry</h4>
+          <span class="inline-block text-[8px] uppercase tracking-wider text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">Soon</span>
+        </div>
+
+        <!-- Standard Box -->
+        <div class="reveal stagger-4 col-span-1 row-span-1 bg-stone-800/40 backdrop-blur-md border border-stone-700/50 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] text-center hover:bg-stone-800 hover:border-emerald-500/30 transition-all duration-300 group flex flex-col items-center justify-center relative overflow-hidden">
+          <div class="text-emerald-400 mb-2 md:mb-3 flex justify-center transform group-hover:scale-110 transition-transform duration-300">
+            <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </div>
+          <h4 class="font-bold text-stone-200 text-sm leading-tight mb-1">Power Backup</h4>
+          <span class="inline-block text-[8px] uppercase tracking-wider text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">Soon</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEW: Dining Section -->
+  <section id="dining" class="py-24 bg-[#faf0e6]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="reveal text-center mb-16">
+        <span class="text-emerald-600 font-bold tracking-widest uppercase text-sm">Delicious & Healthy</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold text-stone-900 mt-3">Premium <span
+            class="italic text-emerald-700">Dining Experience</span></h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="reveal stagger-1">
+          <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=800&q=80" alt="Dining Area"
+            class="rounded-2xl md:rounded-[2rem] shadow-2xl object-cover h-64 md:h-[500px] w-full">
+        </div>
+        <div class="reveal stagger-2 space-y-8">
+          <div>
+            <h3 class="text-2xl font-bold text-stone-900 mb-3 flex items-center gap-3">
+              <span class="bg-orange-100 text-orange-600 p-2 rounded-lg"><svg class="w-6 h-6" fill="none"
+                  stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                  </path>
+                </svg></span>
+              Breakfast
+            </h3>
+            <p class="text-stone-600 leading-relaxed">Start your day right with a hot, nutritious breakfast. Options
+              vary daily from traditional Indian favorites to continental items.</p>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-stone-900 mb-3 flex items-center gap-3">
+              <span class="bg-emerald-100 text-emerald-600 p-2 rounded-lg"><svg class="w-6 h-6" fill="none"
+                  stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg></span>
+              Lunch
+            </h3>
+            <p class="text-stone-600 leading-relaxed">Complete thali meals featuring dal, seasonal sabzi, rice, roti,
+              and salad. Packed lunch options available for college students.</p>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-stone-900 mb-3 flex items-center gap-3">
+              <span class="bg-blue-100 text-blue-600 p-2 rounded-lg"><svg class="w-6 h-6" fill="none"
+                  stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg></span>
+              Dinner
+            </h3>
+            <p class="text-stone-600 leading-relaxed">A comforting, light dinner with alternating special menus on
+              weekends. We also accommodate specific dietary preferences.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEW: Gallery -->
+  <section id="gallery" class="py-24 bg-[#faf0e6] border-y border-[#faf0e6]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="reveal text-center mb-16">
+        <span class="text-emerald-600 font-bold tracking-widest uppercase text-sm">Visual Tour</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold text-stone-900 mt-3">Take a look <span
+            class="italic text-emerald-700">Inside</span></h2>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 auto-rows-[150px] md:auto-rows-[200px]">
+        <div class="reveal stagger-1 md:col-span-2 md:row-span-2 rounded-2xl md:rounded-[2rem] overflow-hidden group">
+          <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80" alt="Lobby"
+            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+        </div>
+        <div class="reveal stagger-2 rounded-2xl md:rounded-[2rem] overflow-hidden group">
+          <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&q=80" alt="Room Details"
+            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+        </div>
+        <div class="reveal stagger-3 rounded-2xl md:rounded-[2rem] overflow-hidden group">
+          <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=400&q=80" alt="Building Exterior"
+            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+        </div>
+        <div class="reveal stagger-4 md:col-span-2 rounded-2xl md:rounded-[2rem] overflow-hidden group">
+          <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&q=80" alt="Study Area"
+            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEW: Testimonials -->
+  <section class="py-24 bg-stone-900 text-white overflow-hidden relative">
+    <!-- Abstract Shapes -->
+    <div class="absolute -right-20 top-20 w-72 h-72 bg-emerald-600/20 rounded-full blur-3xl"></div>
+    <div class="absolute -left-20 bottom-20 w-72 h-72 bg-teal-600/20 rounded-full blur-3xl"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="reveal text-center mb-16">
+        <span class="text-emerald-400 font-bold tracking-widest uppercase text-sm">Testimonials</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold text-white mt-3">What Our <span
+            class="italic text-emerald-400">Residents Say</span></h2>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8">
+        <div
+          class="reveal stagger-1 bg-white p-3 sm:p-6 md:p-8 rounded-[1rem] md:rounded-[2rem] relative hover:-translate-y-2 transition-transform duration-300 shadow-xl shadow-black/20 border border-stone-100 flex flex-col">
+          <div class="flex gap-0.5 md:gap-1 mb-2 md:mb-4 text-amber-400">
+            <svg class="w-3 h-3 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            <svg class="w-3 h-3 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            <svg class="w-3 h-3 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            <svg class="w-3 h-3 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            <svg class="w-3 h-3 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+          </div>
+          <p class="text-stone-600 relative z-10 italic mb-3 md:mb-6 text-[10px] sm:text-xs md:text-base leading-snug">"Moving to Kosamba for college was daunting, but Unity PG
+            made me feel right at home. The food is incredible and the study environment is perfectly quiet."</p>
+          <div class="flex items-center gap-2 md:gap-4 mt-auto">
+            <div
+              class="w-6 h-6 md:w-12 md:h-12 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center font-bold text-stone-900 shadow-lg shadow-emerald-500/30 text-[10px] md:text-base shrink-0">
+              R</div>
+            <div>
+              <h4 class="font-bold text-stone-900 text-[11px] sm:text-sm md:text-base leading-tight">Rahul Sharma</h4>
+              <span class="text-stone-500 text-[8px] md:text-sm block">SVNIT Student</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="reveal stagger-2 bg-white p-3 sm:p-6 md:p-8 rounded-[1rem] md:rounded-[2rem] relative hover:-translate-y-2 transition-transform duration-300 shadow-xl shadow-black/20 border border-stone-100 flex flex-col">
+          <div class="flex gap-0.5 md:gap-1 mb-2 md:mb-4 text-amber-400">
+            <svg class="w-3 h-3 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            <svg class="w-3 h-3 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            <svg class="w-3 h-3 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            <svg class="w-3 h-3 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            <svg class="w-3 h-3 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+          </div>
+          <p class="text-stone-600 relative z-10 italic mb-3 md:mb-6 text-[10px] sm:text-xs md:text-base leading-snug">"The cleanliness standards here are top-notch. Daily
+            housekeeping ensures everything is pristine. The biometric security also gives peace of mind."</p>
+          <div class="flex items-center gap-2 md:gap-4 mt-auto">
+            <div class="w-6 h-6 md:w-12 md:h-12 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full flex items-center justify-center font-bold text-stone-900 shadow-lg shadow-teal-500/30 text-[10px] md:text-base shrink-0">A
+            </div>
+            <div>
+              <h4 class="font-bold text-stone-900 text-[11px] sm:text-sm md:text-base leading-tight">Aditya Patel</h4>
+              <span class="text-stone-500 text-[8px] md:text-sm block">Working Professional</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="reveal stagger-3 bg-white p-3 sm:p-6 md:p-8 rounded-[1rem] md:rounded-[2rem] relative hover:-translate-y-2 transition-transform duration-300 shadow-xl shadow-black/20 border border-stone-100 flex flex-col">
+          <div class="flex gap-0.5 md:gap-1 mb-2 md:mb-4 text-amber-400">
+            <svg class="w-3 h-3 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            <svg class="w-3 h-3 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            <svg class="w-3 h-3 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            <svg class="w-3 h-3 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+            <svg class="w-3 h-3 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+          </div>
+          <p class="text-stone-600 relative z-10 italic mb-3 md:mb-6 text-[10px] sm:text-xs md:text-base leading-snug">"I highly recommend the double sharing rooms! The
+            facilities provided at this price point are unmatched anywhere else in the city."</p>
+          <div class="flex items-center gap-2 md:gap-4 mt-auto">
+            <div
+              class="w-6 h-6 md:w-12 md:h-12 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center font-bold text-stone-900 shadow-lg shadow-orange-500/30 text-[10px] md:text-base shrink-0">V
+            </div>
+            <div>
+              <h4 class="font-bold text-stone-900 text-[11px] sm:text-sm md:text-base leading-tight">Vikram Singh</h4>
+              <span class="text-stone-500 text-[8px] md:text-sm block">Medical Student</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEW: FAQ Section -->
+  <section id="faq" class="py-24 bg-[#faf0e6]">
+    <div class="max-w-3xl mx-auto px-6">
+      <div class="reveal text-center mb-16">
+        <span class="text-emerald-600 font-bold tracking-widest uppercase text-sm">Got Questions?</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold text-stone-900 mt-3">Frequently Asked <span
+            class="italic text-emerald-700">Questions</span></h2>
+      </div>
+
+      <div class="space-y-4">
+        <!-- FAQ 1 -->
+        <div
+          class="reveal stagger-1 bg-white border border-stone-200 rounded-2xl overflow-hidden faq-item cursor-pointer hover:border-emerald-300 transition-colors">
+          <div class="p-6 flex justify-between items-center bg-white z-10 relative">
+            <h3 class="font-bold text-stone-900">Are there any restrictions on timings?</h3>
+            <svg class="w-5 h-5 text-emerald-600 transform transition-transform faq-icon" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+          <div class="px-6 pb-6 text-stone-500 faq-content hidden">
+            No, there are no restrictions on timings. You are free to come and go as per your convenience.
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div
+          class="reveal stagger-2 bg-white border border-stone-200 rounded-2xl overflow-hidden faq-item cursor-pointer hover:border-emerald-300 transition-colors">
+          <div class="p-6 flex justify-between items-center bg-white z-10 relative">
+            <h3 class="font-bold text-stone-900">Is there any security deposit?</h3>
+            <svg class="w-5 h-5 text-emerald-600 transform transition-transform faq-icon" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+          <div class="px-6 pb-6 text-stone-500 faq-content hidden">
+            No, there is no security deposit required.
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div
+          class="reveal stagger-3 bg-white border border-stone-200 rounded-2xl overflow-hidden faq-item cursor-pointer hover:border-emerald-300 transition-colors">
+          <div class="p-6 flex justify-between items-center bg-white z-10 relative">
+            <h3 class="font-bold text-stone-900">Is there any railway station nearby?</h3>
+            <svg class="w-5 h-5 text-emerald-600 transform transition-transform faq-icon" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+          <div class="px-6 pb-6 text-stone-500 faq-content hidden">
+            Yes, Kosamba railway station is nearby and easily accessible from the PG.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / Footer -->
+  <section id="contact" class="py-16 md:py-24 bg-emerald-900 border-t-8 border-emerald-500">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="reveal font-display text-3xl md:text-6xl font-bold text-white mb-6 md:mb-8">Ready to move in?</h2>
+      <p class="reveal stagger-1 text-emerald-100 text-base md:text-lg mb-8 md:mb-10 max-w-2xl mx-auto">Join the Unity Hostel community today
+        and experience the best student living in Kosamba.</p>
+      <div class="reveal stagger-2 flex flex-wrap justify-center gap-4">
+        <a href="https://wa.me/919687886878?text=Hii%20i%20want%20to%20book%20a%20room%20for%20me%20" target="_blank"
+          class="bg-white text-emerald-900 px-8 py-4 rounded-full font-bold hover:bg-emerald-50 transition-transform hover:-translate-y-1 shadow-xl shadow-emerald-950/50">Book
+          a Visit</a>
+        <a href="tel:+919687886878"
+          class="bg-emerald-800 border border-emerald-700 text-white px-8 py-4 rounded-full font-bold hover:bg-emerald-700 transition-transform hover:-translate-y-1 flex items-center gap-2">Call
+          +91 96878 86878</a>
+      </div>
+      
+      <div class="reveal stagger-3 mt-12 md:mt-16 w-full max-w-4xl mx-auto rounded-[1.5rem] overflow-hidden shadow-2xl border-4 border-emerald-800/50 relative bg-emerald-800">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2451.9319103623006!2d72.96137808197503!3d21.470207882272124!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be03bbd92841e89%3A0x1efcc1db97479f5b!2sUnity%20Hostel%20-%20PG!5e1!3m2!1sen!2sin!4v1781950607455!5m2!1sen!2sin" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="w-full block hover:opacity-90 transition-opacity"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-stone-950 text-stone-500 py-8 border-t border-stone-800 text-center text-sm">
+    <p>&copy; 2026 Unity Hostel and PG. All rights reserved.</p>
+  </footer>
+
+  <!-- Light Javascript for Animations (NO LAG) -->
+  <script src="/assets/js/main.js"></script>
+</body>
+
+</html>
