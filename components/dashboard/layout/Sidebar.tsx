@@ -14,7 +14,7 @@ import {
   Menu,
   X
 } from 'lucide-react';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -28,6 +28,11 @@ const navigation = [
 export default function Sidebar({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const { data: session } = useSession();
+
+  const userName = session?.user?.name || 'Admin';
+  const userRole = (session?.user as any)?.role || 'OWNER';
+  const userInitial = userName.charAt(0).toUpperCase();
 
   return (
     <div>
@@ -107,11 +112,11 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
             <div className="flex-1"></div>
             <div className="ml-4 flex items-center md:ml-6 gap-4">
               <div className="flex flex-col items-end hidden md:flex">
-                <span className="text-sm font-medium text-stone-900 dark:text-white">Admin User</span>
-                <span className="text-xs text-stone-500 dark:text-stone-400">Owner</span>
+                <span className="text-sm font-medium text-stone-900 dark:text-white">{userName}</span>
+                <span className="text-xs text-stone-500 dark:text-stone-400">{userRole === 'OWNER' ? 'Owner' : userRole}</span>
               </div>
               <div className="h-10 w-10 rounded-full bg-emerald-100 dark:bg-emerald-900 border border-emerald-200 dark:border-emerald-800 flex items-center justify-center text-emerald-700 dark:text-emerald-300 font-bold">
-                A
+                {userInitial}
               </div>
             </div>
           </div>

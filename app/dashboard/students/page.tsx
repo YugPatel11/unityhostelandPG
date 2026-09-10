@@ -1,19 +1,51 @@
 'use client';
 
-import { useState } from 'react';
-import { Plus, Search, Filter, MoreVertical, Edit, Trash } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Plus, Search, MoreVertical, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
-const students = [
-  { id: '1', name: 'Rahul Sharma', room: '101', phone: '+91 9876543210', status: 'Active', rent: 'Paid' },
-  { id: '2', name: 'Aditya Patel', room: '102', phone: '+91 9876543211', status: 'Active', rent: 'Pending' },
-  { id: '3', name: 'Vikram Singh', room: '103', phone: '+91 9876543212', status: 'Active', rent: 'Paid' },
-  { id: '4', name: 'Raj Kumar', room: '104', phone: '+91 9876543213', status: 'Active', rent: 'Paid' },
-  { id: '5', name: 'Amit Desai', room: '105', phone: '+91 9876543214', status: 'Left', rent: 'Cleared' },
-];
+interface Student {
+  id: string;
+  name: string;
+  room: string;
+  phone: string;
+  status: string;
+  rent: string;
+}
 
 export default function StudentsPage() {
+  const [students, setStudents] = useState<Student[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    async function fetchStudents() {
+      try {
+        const res = await fetch('/api/students');
+        const data = await res.json();
+        setStudents(data);
+      } catch (error) {
+        console.error('Failed to fetch students:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchStudents();
+  }, []);
+
+  const filteredStudents = students.filter((s) =>
+    s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    s.room.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    s.phone.includes(searchTerm)
+  );
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-6">
@@ -33,7 +65,7 @@ export default function StudentsPage() {
         </Link>
       </div>
 
-      {/* Filters and Search */}
+      {/* Search */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -47,10 +79,6 @@ export default function StudentsPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <button className="inline-flex items-center px-4 py-2 bg-white dark:bg-stone-950 border border-stone-200 dark:border-stone-800 rounded-xl text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-900 transition-colors text-sm font-medium">
-          <Filter className="w-4 h-4 mr-2" />
-          Filter
-        </button>
       </div>
 
       {/* Table */}
@@ -64,57 +92,57 @@ export default function StudentsPage() {
                 <th className="px-6 py-4 font-medium">Phone</th>
                 <th className="px-6 py-4 font-medium">Status</th>
                 <th className="px-6 py-4 font-medium">Rent</th>
-                <th className="px-6 py-4 font-medium text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-200 dark:divide-stone-800">
-              {students.map((student) => (
-                <tr key={student.id} className="hover:bg-stone-50 dark:hover:bg-stone-900/50 transition-colors group">
-                  <td className="px-6 py-4 font-medium text-stone-900 dark:text-white flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold text-xs">
-                      {student.name.charAt(0)}
-                    </div>
-                    {student.name}
-                  </td>
-                  <td className="px-6 py-4 text-stone-600 dark:text-stone-300">{student.room}</td>
-                  <td className="px-6 py-4 text-stone-600 dark:text-stone-300">{student.phone}</td>
-                  <td className="px-6 py-4">
-                    <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${
-                      student.status === 'Active' 
-                        ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400' 
-                        : 'bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-400'
-                    }`}>
-                      {student.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${
-                      student.rent === 'Paid' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400' : 
-                      student.rent === 'Pending' ? 'bg-rose-100 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400' :
-                      'bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-400'
-                    }`}>
-                      {student.rent}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <button className="text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors p-1 rounded-md hover:bg-stone-100 dark:hover:bg-stone-800">
-                      <MoreVertical className="w-5 h-5" />
-                    </button>
+              {filteredStudents.length > 0 ? (
+                filteredStudents.map((student) => (
+                  <tr key={student.id} className="hover:bg-stone-50 dark:hover:bg-stone-900/50 transition-colors group">
+                    <td className="px-6 py-4 font-medium text-stone-900 dark:text-white flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold text-xs">
+                        {student.name.charAt(0)}
+                      </div>
+                      {student.name}
+                    </td>
+                    <td className="px-6 py-4 text-stone-600 dark:text-stone-300">{student.room}</td>
+                    <td className="px-6 py-4 text-stone-600 dark:text-stone-300">{student.phone}</td>
+                    <td className="px-6 py-4">
+                      <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${
+                        student.status === 'Active' 
+                          ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400' 
+                          : 'bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-400'
+                      }`}>
+                        {student.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${
+                        student.rent === 'Paid' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400' : 
+                        student.rent === 'Pending' ? 'bg-rose-100 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400' :
+                        'bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-400'
+                      }`}>
+                        {student.rent}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5} className="px-6 py-12 text-center text-stone-400">
+                    {searchTerm ? 'No students match your search.' : 'No students yet. Add your first student to get started.'}
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
         
-        {/* Pagination */}
-        <div className="px-6 py-4 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between text-sm">
-          <span className="text-stone-500 dark:text-stone-400">Showing 1 to 5 of 24 entries</span>
-          <div className="flex gap-2">
-            <button className="px-3 py-1 border border-stone-200 dark:border-stone-800 rounded-lg text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-900 disabled:opacity-50">Prev</button>
-            <button className="px-3 py-1 border border-stone-200 dark:border-stone-800 rounded-lg text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-900">Next</button>
+        {/* Pagination info */}
+        {filteredStudents.length > 0 && (
+          <div className="px-6 py-4 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between text-sm">
+            <span className="text-stone-500 dark:text-stone-400">Showing {filteredStudents.length} of {students.length} entries</span>
           </div>
-        </div>
+        )}
       </div>
       
     </div>

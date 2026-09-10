@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -26,24 +26,67 @@ const studentSchema = z.object({
 
 type StudentFormValues = z.infer<typeof studentSchema>;
 
+interface Room {
+  id: string;
+  number: string;
+  type: string;
+  capacity: number;
+  occupied: number;
+  price: number;
+}
+
 export default function AddStudentPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [loadingRooms, setLoadingRooms] = useState(true);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<StudentFormValues>({
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<StudentFormValues>({
     resolver: zodResolver(studentSchema),
     defaultValues: {
       checkInDate: new Date().toISOString().split('T')[0],
       securityDeposit: '0',
-      monthlyRent: '6000',
+      monthlyRent: '',
     }
   });
+
+  useEffect(() => {
+    async function fetchRooms() {
+      try {
+        const res = await fetch('/api/rooms');
+        const data = await res.json();
+        setRooms(data);
+      } catch (error) {
+        console.error('Failed to fetch rooms:', error);
+      } finally {
+        setLoadingRooms(false);
+      }
+    }
+    fetchRooms();
+  }, []);
+
+  const handleRoomChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const roomId = e.target.value;
+    setValue('roomId', roomId);
+    const selectedRoom = rooms.find((r) => r.id === roomId);
+    if (selectedRoom) {
+      setValue('monthlyRent', String(selectedRoom.price));
+    }
+  };
 
   const onSubmit = async (data: StudentFormValues) => {
     setIsSubmitting(true);
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const res = await fetch('/api/students', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+      if (!res.ok) {
+        toast.error(result.error || 'Failed to add student');
+        return;
+      }
       toast.success("Student added successfully!");
       router.push('/dashboard/students');
     } catch (error) {
@@ -52,6 +95,8 @@ export default function AddStudentPage() {
       setIsSubmitting(false);
     }
   };
+
+  const availableRooms = rooms.filter((r) => r.occupied < r.capacity);
 
   return (
     <div className="p-4 md:p-8 max-w-4xl mx-auto space-y-6">
@@ -119,13 +164,21 @@ export default function AddStudentPage() {
             </div>
             
             <div className="space-y-2">
-              <label className="text-sm font-medium text-stone-700 dark:text-stone-300">Upload ID Proof</label>
-              <div className="w-full px-4 py-2 bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 border-dashed rounded-xl flex items-center justify-center cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors">
-                <div className="flex flex-col items-center gap-1 text-stone-500">
-                  <Upload className="w-5 h-5" />
-                  <span className="text-xs">Click to upload PDF/JPG</span>
-                </div>
-              </div>
+              <label className="text-sm font-medium text-stone-700 dark:text-stone-300">College (Optional)</label>
+              <input 
+                {...register("college")}
+                className="w-full px-4 py-2.5 bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white"
+                placeholder="College name"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-stone-700 dark:text-stone-300">Course (Optional)</label>
+              <input 
+                {...register("course")}
+                className="w-full px-4 py-2.5 bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white"
+                placeholder="B.Tech, MBA, etc."
+              />
             </div>
           </div>
         </div>
@@ -164,15 +217,27 @@ export default function AddStudentPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="text-sm font-medium text-stone-700 dark:text-stone-300">Assign Room *</label>
-              <select 
-                {...register("roomId")}
-                className="w-full px-4 py-2.5 bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white"
-              >
-                <option value="">Select a room</option>
-                <option value="101">101 (3 Bed Sharing)</option>
-                <option value="102">102 (4 Bed Sharing)</option>
-                <option value="201">201 (5 Bed Sharing)</option>
-              </select>
+              {loadingRooms ? (
+                <div className="flex items-center gap-2 text-stone-400 text-sm py-2.5">
+                  <Loader2 className="w-4 h-4 animate-spin" /> Loading rooms...
+                </div>
+              ) : (
+                <select 
+                  {...register("roomId")}
+                  onChange={handleRoomChange}
+                  className="w-full px-4 py-2.5 bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white"
+                >
+                  <option value="">Select a room</option>
+                  {availableRooms.map((room) => (
+                    <option key={room.id} value={room.id}>
+                      {room.number} ({room.type}) — {room.capacity - room.occupied} beds free — ₹{room.price.toLocaleString('en-IN')}/bed
+                    </option>
+                  ))}
+                  {availableRooms.length === 0 && (
+                    <option disabled>No rooms with available beds</option>
+                  )}
+                </select>
+              )}
               {errors.roomId && <p className="text-rose-500 text-xs">{errors.roomId.message}</p>}
             </div>
 
